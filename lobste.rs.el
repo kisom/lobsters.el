@@ -73,8 +73,7 @@
 (defun lobsters-fetch (url)
   (let* ((lobsters-buffer (generate-new-buffer "lobsters")))
     (setq lobsters-buffer (url-retrieve-synchronously url))
-    (save-excursion
-      (set-buffer lobsters-buffer)
+    (with-current-buffer lobsters-buffer
       (if (string-match "200 OK$" (buffer-string))
           (progn
             (re-search-forward "^[ \t]*$" nil 'move)
@@ -83,9 +82,6 @@
               (kill-buffer lobsters-buffer)
               lobsters-json))
         (error "couldn't connect to server.")))))
-
-(defun lobsters-post-title ()
-  (mapcar (lambda (p) (cdr (assoc 'title p))) (lobsters-fetch)))
 
 (defun lobsters-get-key (key p)
   (cdr (assoc key p)))
@@ -121,8 +117,12 @@
                         'mouse-face 'highlight))
     (insert ")\n")))
 
-(defun lobste.rs ()
-  (interactive)
+(defun lobsters-write-title (title title-url)
+  (post-link `((title . ,title) (url . ,feed)))
+  (dotimes (i (length title)) (insert "-"))
+  (insert "\n\n"))
+
+(defun lobsters-show-feed (title title-url feed)
   (switch-to-buffer (get-buffer-create lobsters-bufname))
   (local-set-key (kbd "q") (lambda ()
                              (interactive)
@@ -131,29 +131,23 @@
                                (kill-buffer (buffer-name)))))
   (setq buffer-read-only nil)
   (erase-buffer)
-  (post-link '((title . "lobste.rs front page") (url . "https://lobste.rs")))
-  (insert "--------------------\n\n")
-  (mapcar #'lobsters-post-link (lobsters-fetch lobsters-feed))
+  (lobsters-write-title title title-url)
+  (mapc #'lobsters-post-link (lobsters-fetch feed))
   (lobsters-updated-time)
   (setq buffer-read-only t)
   (move-to-window-line 2))
 
+(defun lobste.rs ()
+  (interactive)
+  (lobsters-show-feed "lobste.rs front page"
+                      "https://lobste.rs/"
+                      lobsters-feed))
+
 (defun lobste.rs-newest ()
   (interactive)
-  (switch-to-buffer (get-buffer-create lobsters-bufname))
-  (local-set-key (kbd "q") (lambda ()
-                             (interactive)
-                             (progn
-                               (local-unset-key (kbd "q"))
-                               (kill-buffer (buffer-name)))))
-  (setq buffer-read-only nil)
-  (erase-buffer)
-  (post-link '((title . "newest lobste.rs posts") (url . "https://lobste.rs")))
-  (insert "----------------------\n\n")
-  (mapcar #'lobsters-post-link (lobsters-fetch lobsters-feed-newest))
-  (lobsters-updated-time)
-  (setq buffer-read-only t)
-  (move-to-window-line 2))
+  (lobsters-show-feed "newest lobste.rs posts"
+                      "https://lobste.rs/newest/"
+                      lobsters-feed-newest))
 
 (provide 'lobste.rs)
 
