@@ -54,7 +54,7 @@
                                       (current-time))
                   "\n\n")))
 
-(defun lobsters-buffer-to -string (b)
+(defun lobsters-buffer-to-string (b)
   (unless (bufferp b)
     nil)
   (let ((cb (current-buffer)))
