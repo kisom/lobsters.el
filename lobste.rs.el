@@ -70,11 +70,6 @@
     (message content)
     content))
 
-(defun lobsters-feed-parse ()
-  (json-read-from-string
-   (lobsters-buffer-to-string
-    (lobsters-fetch-url lobsters-newest))))
-
 (defun lobsters-fetch (url)
   (let* ((lobsters-buffer (generate-new-buffer "lobsters")))
     (setq lobsters-buffer (url-retrieve-synchronously url))
