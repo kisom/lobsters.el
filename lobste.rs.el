@@ -93,7 +93,7 @@
       (browse-url url))))
 
 (defun lobsters-post-link (p)
-  (if (numberp (get-key 'score p))
+  (if (numberp (lobsters-get-key 'score p))
       (insert (concat "(" (prin1-to-string (lobsters-get-key 'score p)) ") ")))
   (lexical-let ((title (lobsters-get-key 'title p))
                 (url (lobsters-get-key 'url p))
@@ -118,7 +118,7 @@
     (insert ")\n")))
 
 (defun lobsters-write-title (title title-url)
-  (post-link `((title . ,title) (url . ,feed)))
+  (lobsters-post-link `((title . ,title) (url . ,title-url)))
   (dotimes (i (length title)) (insert "-"))
   (insert "\n\n"))
 
