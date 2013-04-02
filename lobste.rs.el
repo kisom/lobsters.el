@@ -1,10 +1,11 @@
-;;; lobsters.el -- view the front page of lobste.rs in an emacs buffer
+;;; lobste.rs.el --- view the front page of lobste.rs in an emacs buffer
 ;; Copyright (C) 2013 Kyle Isom
 
-;;; Author: Kyle Isom
-;;; URL: http://github.com/kisom/lobsters.el
-;;; Version: 1.0
-;;; Created: 2013-04-01
+;; Author: Kyle Isom
+;; URL: http://github.com/kisom/lobsters.el
+;; Version: 1.0
+;; Created: 2013-04-01
+;; License: ISC
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -12,18 +13,19 @@
 ;; display the current lobste.rs front page in a new emacs buffer.
 ;; The buffer can be closed with the '
 
-;;; Installation
+;;; Installation:
 
 ;; Copy into your emacs source directory, and add
 ;; (autoload 'lobsters "lobsters" "View the lobste.rs home page." t nil)
 ;; to your emacs init file.
 
-;;; Usage
+;;; Usage:
+
 ;; M-x lobsters displays the front page.
 ;; M-x lobste.rs-newest displays the newest posts.
 ;; q closes the buffer.
 
-;;; License
+;;; License:
 
 ;; Permission to use, copy, modify, and distribute this software for any
 ;; purpose with or without fee is hereby granted, provided that the above
