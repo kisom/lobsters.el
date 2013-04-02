@@ -65,7 +65,7 @@
 
 (defun lobsters-fetch-url (url)
   (let* ((ub (browse-url-emacs url))
-         (content (buffer-to-string ub)))
+         (content (lobsters-buffer-to-string ub)))
     (kill-buffer ub)
     (message content)
     content))
