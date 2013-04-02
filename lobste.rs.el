@@ -160,8 +160,4 @@
 
 (provide 'lobste.rs)
 
-(define-package "lobste.rs" "1.0"
-  "Access lobste.rs from Emacs."
-  '((json "1.2")))
-
-;;; lobsters.el ends here.
+;;; lobsters.el ends here
